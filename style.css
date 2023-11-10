@@ -15,7 +15,7 @@ body {
     /* background: linear-gradient(0deg, #3D30A2, #B15EFF, #FFA33C, #ffd773); */
     background: linear-gradient(0deg, #F39F5A, #AE445A, #662549, #451952);
     background-size: 400% 400%;
-    animation: gradient 60s ease infinite;
+    animation: gradient 15s ease infinite;
 }
 
 #ship, #asteroid {
@@ -24,12 +24,12 @@ body {
 
 @keyframes gradient {
 	0% {
-		background-position: 0% 0%;
+		background-position: 50% 0%;
 	}
 	50% {
-		background-position: 50% 50%;
+		background-position: 50% 100%;
 	}
 	100% {
-		background-position: 100% 50%;
+		background-position: 50% 0%;
 	}
 }
