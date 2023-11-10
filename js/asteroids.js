@@ -3,6 +3,7 @@ import InputHandler from './input.js';
 import { generateAsteroids } from './asteroid-generator.js';
 import Stars from './stars.js';
 import Timer from './timer.js'
+import RestartBlock from './restart-block.js';
 
 window.addEventListener('load', function () {
   const canvas = document.getElementById('canvas');
@@ -18,6 +19,7 @@ window.addEventListener('load', function () {
       this.inputHandler = new InputHandler();
       this.numberOfAsteroids = 10;
       this.frequencyOfAsteroids = 1000;
+      this.restartBlock = null;
 
       this.stars = [];
       for (let i = 0; i < 100; i++) {
@@ -30,7 +32,16 @@ window.addEventListener('load', function () {
       this.timer.start()
     }
 
+    get isPaused() {
+      return Boolean(this.restartBlock)
+    }
+
     update() {
+      if (this.isPaused) {
+        this.restartBlock.update(this.inputHandler.keys)
+        return;
+      }
+
       this.ship.update(this.inputHandler.keys);
       this.asteroids.forEach(asteroid => asteroid.update());
       this.stars.forEach(star => star.update());
@@ -40,13 +51,18 @@ window.addEventListener('load', function () {
       }
 
       this.asteroids.forEach(asteroid => {
-        if (this.ship.collide(asteroid)) {
+        if (this.ship?.collide(asteroid)) {
           this.ship.explode();
         }
       });
     }
 
     draw(context) {
+      if (this.isPaused) {
+        this.restartBlock.draw(context)
+        return;
+      }
+
       this.ship.draw(context);
       this.asteroids.forEach(asteroid => asteroid.draw(context));
       this.stars.forEach(star => star.draw(context));
@@ -54,10 +70,17 @@ window.addEventListener('load', function () {
     }
 
     stop() {
-      this.asteroids = []
       const time = this.timer.stop()
+      this.restartBlock = new RestartBlock(this, time)
+      delete this.asteroids
       delete this.ship
-      this.ship = new Ship(this);
+      this.inputHandler.keys = []
+    }
+
+    restart() {
+      this.ship = new Ship(game)
+      this.asteroids = generateAsteroids(this, this.numberOfAsteroids)
+      this.restartBlock = null;
     }
   }
 
