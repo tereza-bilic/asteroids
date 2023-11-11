@@ -6,6 +6,10 @@ import Timer from './timer.js'
 import RestartBlock from './restart-block.js';
 import Highscore from './highscore.js';
 
+const FREQUENCY = 1000;
+const INITAL_N = 10;
+const N_INCREASE = 1;
+
 window.addEventListener('load', function () {
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
@@ -18,8 +22,8 @@ window.addEventListener('load', function () {
       this.height = height;
       this.asteroids = [];
       this.inputHandler = new InputHandler();
-      this.numberOfAsteroids = 6;
-      this.frequencyOfAsteroids = 1000;
+      this.numberOfAsteroids = INITAL_N;
+      this.frequencyOfAsteroids = FREQUENCY;
       this.restartBlock = null;
       this.highscore = new Highscore(this);
 
@@ -59,6 +63,12 @@ window.addEventListener('load', function () {
           this.ship.explode();
         }
       });
+
+      this.frequencyOfAsteroids -= 1;
+      if (this.frequencyOfAsteroids === 0) {
+        this.numberOfAsteroids += N_INCREASE;
+        this.frequencyOfAsteroids = FREQUENCY;
+      }
     }
 
     draw(context) {
@@ -80,9 +90,8 @@ window.addEventListener('load', function () {
       delete this.asteroids
       delete this.ship
       this.inputHandler.keys = []
-
-
-      console.log(time, localStorage.getItem('highscore'))
+      this.numberOfAsteroids = INITAL_N
+      this.frequencyOfAsteroids = FREQUENCY
 
       if (time > localStorage.getItem('highscore') || !localStorage.getItem('highscore')) {
         localStorage.setItem('highscore', time)

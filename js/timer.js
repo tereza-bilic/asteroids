@@ -5,7 +5,6 @@ export default class Timer {
     this.minutes = 0;
     this.interval;
     this.game = game;
-    console.log(this.tens,this.seconds)
   }
 
   get isRunning() {

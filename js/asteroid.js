@@ -1,8 +1,11 @@
 export default class Asterod {
   constructor(game) {
     this.game = game;
-    this.width = 65;
-    this.height = 65;
+    // make size one or two
+    this.size = Math.floor(Math.random() * 2) + 1;
+
+    this.width = this.size === 1 ? 100 : 65;
+    this.height = this.size === 1 ? 100 : 65;
 
     // position and generate random vectors for movement just off screen poining inwards
     const side = Math.floor(Math.random() * 4);
@@ -34,8 +37,8 @@ export default class Asterod {
     }
 
 
-    this.image = document.getElementById('asteroid');
-    this.speed = Math.random() * 1.5 + 0.5;
+    this.image = this.size === 1 ? document.getElementById('asteroid2') : document.getElementById('asteroid');
+    this.speed = Math.random() * 2 + 0.5;
   }
 
   get isOutOfBounds() {

@@ -8,15 +8,12 @@ export default class InputHandler {
       if (LISTENED_KEYS.includes(e.key)) {
         this.keys.push(e.key);
       }
-      console.log(this.keys);
     });
 
     window.addEventListener('keyup', (e) => {
       if (LISTENED_KEYS.includes(e.key)) {
         this.keys = this.keys.filter(key => key !== e.key);
       }
-
-      console.log(this.keys);
     });
   }
 }
