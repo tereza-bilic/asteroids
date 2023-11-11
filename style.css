@@ -15,7 +15,7 @@ body {
     /* background: linear-gradient(0deg, #3D30A2, #B15EFF, #FFA33C, #ffd773); */
     background: linear-gradient(0deg, #F39F5A, #AE445A, #662549, #451952);
     background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
+    animation: gradient 60s ease infinite;
 }
 
 #ship, #asteroid {

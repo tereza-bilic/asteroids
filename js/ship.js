@@ -50,7 +50,13 @@ export default class Ship {
 
 
   draw(context) {
+    context.save()
+    context.shadowOffsetX = 2;
+    context.shadowOffsetY = 2;
+    context.shadowColor = 'black';
+    context.shadowBlur = 60;
     context.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+    context.restore()
   }
 
   collide(asteroid) {

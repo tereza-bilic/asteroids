@@ -12,6 +12,10 @@ export default class Timer {
     return Boolean(this.interval)
   }
 
+  get time() {
+    return (this.minutes * 60) + this.seconds + (this.tens / 100)
+  }
+
   start() {
     clearInterval(this.interval)
     this.interval = setInterval(() => this.startTimer(), 10)

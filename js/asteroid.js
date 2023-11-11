@@ -1,22 +1,65 @@
 export default class Asterod {
   constructor(game) {
     this.game = game;
-    this.width = 96;
-    this.height = 96;
-    // random x and y
-    this.x = Math.random() * game.width;
-    this.y = Math.random() * game.height;
+    this.width = 65;
+    this.height = 65;
+
+    // position and generate random vectors for movement just off screen poining inwards
+    const side = Math.floor(Math.random() * 4);
+    switch(side) {
+      case 0: // TOP
+        this.x = Math.floor(Math.random() * this.game.width);
+        this.y = -this.height;
+        this.dx = Math.random() * 2 - 1;
+        this.dy = Math.random() * 2;
+        break;
+      case 1: // RIGHT
+        this.x = this.game.width + this.width;
+        this.y = Math.floor(Math.random() * this.game.height);
+        this.dx = Math.random() * -2;
+        this.dy = Math.random() * 2 - 1;
+        break;
+      case 2: // BOTTOM
+        this.x = Math.floor(Math.random() * this.game.width);
+        this.y = this.game.height + this.height;
+        this.dx = Math.random() * 2 - 1;
+        this.dy = Math.random() * -2;
+        break;
+      case 3: // LEFT
+        this.x = -this.width;
+        this.y = Math.floor(Math.random() * this.game.height);
+        this.dx = Math.random() * 2;
+        this.dy = Math.random() * 2 - 1;
+        break;
+    }
+
+
     this.image = document.getElementById('asteroid');
-    this.speed = 1;
+    this.speed = Math.random() * 1.5 + 0.5;
+  }
+
+  get isOutOfBounds() {
+    return (
+      this.x > this.game.width ||
+      this.x + this.width < 0 ||
+      this.y > this.game.height ||
+      this.y + this.height < 0
+    )
   }
 
   update() {
-    this.x += this.speed;
-    this.y += this.speed;
+    this.x += this.dx * this.speed;
+    this.y += this.dy * this.speed;
   }
 
   draw(context) {
     // rotate randomly
+    context.save()
+    context.shadowOffsetX = 2;
+    context.shadowOffsetY = 2;
+    context.shadowColor = 'black';
+    context.shadowBlur = 80;
     context.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+    context.restore()
   }
 }

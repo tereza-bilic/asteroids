@@ -4,6 +4,7 @@ import { generateAsteroids } from './asteroid-generator.js';
 import Stars from './stars.js';
 import Timer from './timer.js'
 import RestartBlock from './restart-block.js';
+import Highscore from './highscore.js';
 
 window.addEventListener('load', function () {
   const canvas = document.getElementById('canvas');
@@ -17,9 +18,10 @@ window.addEventListener('load', function () {
       this.height = height;
       this.asteroids = [];
       this.inputHandler = new InputHandler();
-      this.numberOfAsteroids = 10;
+      this.numberOfAsteroids = 6;
       this.frequencyOfAsteroids = 1000;
       this.restartBlock = null;
+      this.highscore = new Highscore(this);
 
       this.stars = [];
       for (let i = 0; i < 100; i++) {
@@ -45,9 +47,11 @@ window.addEventListener('load', function () {
       this.ship.update(this.inputHandler.keys);
       this.asteroids.forEach(asteroid => asteroid.update());
       this.stars.forEach(star => star.update());
+      this.highscore.update(this.timer.time);
 
-      if (this.asteroids.length < this.numberOfAsteroids) {
-        this.asteroids = generateAsteroids(this, this.numberOfAsteroids);
+      // add asteroids
+      if (this.asteroids.filter(asteroid => !asteroid.isOutOfBounds).length < this.numberOfAsteroids) {
+        this.asteroids = this.asteroids.concat(generateAsteroids(this, 1));
       }
 
       this.asteroids.forEach(asteroid => {
@@ -67,6 +71,7 @@ window.addEventListener('load', function () {
       this.asteroids.forEach(asteroid => asteroid.draw(context));
       this.stars.forEach(star => star.draw(context));
       this.timer.draw(context);
+      this.highscore.draw(context);
     }
 
     stop() {
@@ -75,11 +80,19 @@ window.addEventListener('load', function () {
       delete this.asteroids
       delete this.ship
       this.inputHandler.keys = []
+
+
+      console.log(time, localStorage.getItem('highscore'))
+
+      if (time > localStorage.getItem('highscore') || !localStorage.getItem('highscore')) {
+        localStorage.setItem('highscore', time)
+      }
     }
 
     restart() {
       this.ship = new Ship(game)
       this.asteroids = generateAsteroids(this, this.numberOfAsteroids)
+      this.timer.start();
       this.restartBlock = null;
     }
   }
