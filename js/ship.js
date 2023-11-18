@@ -1,3 +1,5 @@
+const SHIP_SPEED = 5;
+
 export default class Ship {
   constructor(game) {
     this.game = game;
@@ -10,19 +12,19 @@ export default class Ship {
 
   update(input) {
     if (input.includes('ArrowDown')) {
-      this.y += 5;
+      this.y += SHIP_SPEED;
     }
 
     if (input.includes('ArrowUp')) {
-      this.y -= 5;
+      this.y -= SHIP_SPEED;
     }
 
     if (input.includes('ArrowLeft')) {
-      this.x -= 5;
+      this.x -= SHIP_SPEED;
     }
 
     if (input.includes('ArrowRight')) {
-      this.x += 5;
+      this.x += SHIP_SPEED;
     }
 
     this.handleOutOfBounds();

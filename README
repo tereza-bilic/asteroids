@@ -1,0 +1,10 @@
+link za github repozitorij: https://github.com/tereza-bilic/asteroids
+link na webstranicu: https://asteroids-lab.onrender.com/
+
+Uspješno sam implementirala sve obvezne funkcionalnosti. Od opcionalnih sam dodala slike za svemirsku letjelicu i brod. Animirala sam
+pozadinu canvasa s gradijentom i prolaznim zvijezdama.
+Igra se otežava u ovisnosti o parametrima frekvencije, broja inicijalnih asteroida te broja povećavanja koji su zapisani kao konstante
+u kodu u js/asteroids.js
+
+Igra se upravlja strelica na tipkovnici. Cilj je izbjeći sudar s asteroidima što je dulje moguće.
+U slučaju gubitka pojavit će se ekran "Game over" s rezultatom, za resetiranje igre pritisnuti bilokoju strelicu.
